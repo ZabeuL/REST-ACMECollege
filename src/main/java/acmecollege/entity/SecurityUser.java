@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,8 +31,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import acmecollege.rest.serializer.SecurityRoleSerializer;
@@ -70,7 +67,7 @@ public class SecurityUser implements Serializable, Principal {
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     protected Student student;
     
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "user_has_role",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),

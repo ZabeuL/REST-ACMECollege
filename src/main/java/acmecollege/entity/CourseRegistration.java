@@ -40,9 +40,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "course_registration")
 @Access(AccessType.FIELD)
-@NamedQuery(name = "CourseRegistration.findAll", query = "SELECT cr FROM CourseRegistration cr")
+@NamedQuery(name = CourseRegistration.ALL_COURSE_REGISTRATIONS_QUERY, query = "SELECT cr FROM CourseRegistration cr")
 public class CourseRegistration extends PojoBaseCompositeKey<CourseRegistrationPK> implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+    public static final String ALL_COURSE_REGISTRATIONS_QUERY = "CourseRegistration.findAll";
 
 	@EmbeddedId
 	private CourseRegistrationPK id;

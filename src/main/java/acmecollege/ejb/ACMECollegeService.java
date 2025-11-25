@@ -429,7 +429,7 @@ public class ACMECollegeService implements Serializable {
     // CourseRegistration methods
     
     public List<CourseRegistration> getAllCourseRegistrations() {
-        TypedQuery<CourseRegistration> allQuery = em.createNamedQuery("CourseRegistration.findAll", CourseRegistration.class);
+        TypedQuery<CourseRegistration> allQuery = em.createNamedQuery(CourseRegistration.ALL_COURSE_REGISTRATIONS_QUERY, CourseRegistration.class);
         return allQuery.getResultList();
     }
     

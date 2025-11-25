@@ -366,7 +366,7 @@ public class TestACMECollegeSystem {
     @Test
     public void test21_all_student_clubs_no_auth() {
         Response response = webTarget
-            .path("studentclub")
+            .path(STUDENT_CLUB_RESOURCE_NAME)
             .request()
             .get();
         // Any user can retrieve the list of StudentClub
@@ -377,7 +377,7 @@ public class TestACMECollegeSystem {
     public void test22_all_student_clubs_with_adminrole() {
         Response response = webTarget
             .register(adminAuth)
-            .path("studentclub")
+            .path(STUDENT_CLUB_RESOURCE_NAME)
             .request()
             .get();
         assertThat(response.getStatus(), is(200));
@@ -389,7 +389,7 @@ public class TestACMECollegeSystem {
     public void test23_get_student_club_by_id() {
         Response response = webTarget
             .register(adminAuth)
-            .path("studentclub/1")
+            .path(STUDENT_CLUB_RESOURCE_NAME + "/1")
             .request()
             .get();
         assertThat(response.getStatus(), is(200));
@@ -402,7 +402,7 @@ public class TestACMECollegeSystem {
         
         Response response = webTarget
             .register(adminAuth)
-            .path("studentclub")
+            .path(STUDENT_CLUB_RESOURCE_NAME)
             .request()
             .post(Entity.entity(newClub, MediaType.APPLICATION_JSON));
         assertThat(response.getStatus(), is(200));
@@ -415,7 +415,7 @@ public class TestACMECollegeSystem {
         
         Response response = webTarget
             .register(userAuth)
-            .path("studentclub")
+            .path(STUDENT_CLUB_RESOURCE_NAME)
             .request()
             .post(Entity.entity(newClub, MediaType.APPLICATION_JSON));
         assertThat(response.getStatus(), is(403));
@@ -425,7 +425,7 @@ public class TestACMECollegeSystem {
     public void test26_delete_student_club_with_userrole_forbidden() {
         Response response = webTarget
             .register(userAuth)
-            .path("studentclub/1")
+            .path(STUDENT_CLUB_RESOURCE_NAME + "/1")
             .request()
             .delete();
         assertThat(response.getStatus(), is(403));
@@ -616,7 +616,7 @@ public class TestACMECollegeSystem {
         
         Response response = webTarget
             .register(adminAuth)
-            .path("studentclub/1")
+            .path(STUDENT_CLUB_RESOURCE_NAME + "/1")
             .request()
             .put(Entity.entity(updatedClub, MediaType.APPLICATION_JSON));
         assertThat(response.getStatus(), is(200));
