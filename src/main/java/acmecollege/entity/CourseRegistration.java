@@ -6,10 +6,7 @@
  * @date August 28, 2022
  * 
  * Updated by:  Group NN
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
+ *   Lucas, Subhechha, David, Abhiram
  *   
  */
 package acmecollege.entity;
@@ -34,6 +31,8 @@ import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @SuppressWarnings("unused")
 /**
  * The persistent class for the course_registration database table.
@@ -41,9 +40,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "course_registration")
 @Access(AccessType.FIELD)
-@NamedQuery(name = "CourseRegistration.findAll", query = "SELECT cr FROM CourseRegistration cr")
+@NamedQuery(name = CourseRegistration.ALL_COURSE_REGISTRATIONS_QUERY, query = "SELECT cr FROM CourseRegistration cr")
 public class CourseRegistration extends PojoBaseCompositeKey<CourseRegistrationPK> implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+    public static final String ALL_COURSE_REGISTRATIONS_QUERY = "CourseRegistration.findAll";
 
 	@EmbeddedId
 	private CourseRegistrationPK id;
@@ -83,6 +84,7 @@ public class CourseRegistration extends PojoBaseCompositeKey<CourseRegistrationP
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public Student getStudent() {
 		return student;
 	}

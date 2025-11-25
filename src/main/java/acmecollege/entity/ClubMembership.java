@@ -6,10 +6,7 @@
  * @date August 28, 2022
  * 
  * Updated by:  Group NN
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
+ *   Lucas, Subhechha, David, Abhiram
  * 
  */
 package acmecollege.entity;
@@ -29,6 +26,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("unused")
 
@@ -68,6 +67,7 @@ public class ClubMembership extends PojoBase implements Serializable {
 		this.club = club;
 	}
 
+	@JsonIgnore
 	public MembershipCard getCard() {
 		return card;
 	}

@@ -6,10 +6,7 @@
  * @date August 28, 2022
  * 
  * Updated by:  Group NN
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
+ *   Lucas, Subhechha, David, Abhiram
  * 
  */
 package acmecollege.entity;

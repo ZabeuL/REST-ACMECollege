@@ -6,10 +6,7 @@
  * @date August 28, 2022
  * 
  * Updated by:  Group NN
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
+ *   Lucas, Subhechha, David, Abhiram
  * 
  */
 package acmecollege.entity;
@@ -27,6 +24,8 @@ import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("unused")
 
@@ -141,6 +140,7 @@ public class Course extends PojoBase implements Serializable {
 		this.online = online;
 	}
 	
+	@JsonIgnore
 	public Set<CourseRegistration> getCourseRegistrations() {
 		return courseRegistrations;
 	}
