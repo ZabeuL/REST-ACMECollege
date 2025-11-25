@@ -6,10 +6,7 @@
  * @author (original) Mike Norman
  *
  * Updated by:  Group NN
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
+ *   Lucas, Subhechha, David, Abhiram
  *
  */
 package acmecollege.entity;
@@ -19,20 +16,44 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @SuppressWarnings("unused")
 
 /**
  * Role class used for (JSR-375) Java EE Security authorization/authentication
  */
-//TODO SR01 - Make this into JPA entity and add all necessary annotations
+@Entity
+@Table(name = "security_role")
+@NamedQuery(name = SecurityRole.ROLE_BY_NAME_QUERY, query = "SELECT sr FROM SecurityRole sr WHERE sr.roleName = :param1")
 public class SecurityRole implements Serializable {
     /** Explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
+    
+    public static final String ROLE_BY_NAME_QUERY = "SecurityRole.roleByName";
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id", nullable = false)
     protected int id;
     
+    @Column(name = "name", nullable = false, length = 45)
     protected String roleName;
     
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     protected Set<SecurityUser> users = new HashSet<SecurityUser>();
 
     public SecurityRole() {
