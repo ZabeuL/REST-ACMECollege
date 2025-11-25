@@ -6,10 +6,7 @@
  * @author (original) Mike Norman
  * 
  * Updated by:  Group NN
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
- *   studentId, firstName, lastName (as from ACSIS)
+ *   Lucas, Subhechha, David, Abhiram
  * 
  */
 package acmecollege.entity;
@@ -20,25 +17,65 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import acmecollege.rest.serializer.SecurityRoleSerializer;
+
 @SuppressWarnings("unused")
 
 /**
  * User class used for (JSR-375) Java EE Security authorization/authentication
  */
-
-//TODO - Make this into JPA entity and add all the necessary annotations
+@Entity
+@Table(name = "security_user")
+@NamedQuery(name = SecurityUser.USER_FOR_OWNING_STUDENT_QUERY, query = "SELECT su FROM SecurityUser su LEFT JOIN FETCH su.student LEFT JOIN FETCH su.roles WHERE su.username = :param1")
+@NamedQuery(name = SecurityUser.SECURITY_USER_BY_STUDENT_ID_QUERY, query = "SELECT su FROM SecurityUser su WHERE su.student.id = :param1")
 public class SecurityUser implements Serializable, Principal {
     /** Explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
+    
+    public static final String USER_FOR_OWNING_STUDENT_QUERY = "SecurityUser.userForOwningStudent";
+    public static final String SECURITY_USER_BY_STUDENT_ID_QUERY = "SecurityUser.securityUserByStudentId";
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
     protected int id;
     
+    @Column(name = "username", nullable = false, length = 100)
     protected String username;
     
+    @JsonIgnore
+    @Column(name = "password_hash", nullable = false, length = 256)
     protected String pwHash;
     
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
     protected Student student;
     
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_has_role",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    )
     protected Set<SecurityRole> roles = new HashSet<SecurityRole>();
 
     public SecurityUser() {
@@ -69,7 +106,8 @@ public class SecurityUser implements Serializable, Principal {
         this.pwHash = pwHash;
     }
 
-    // TODO SU01 - Setup custom JSON serializer
+    // Custom JSON serializer for roles - only serialize role names, not the full role objects
+    @JsonSerialize(using = SecurityRoleSerializer.class)
     public Set<SecurityRole> getRoles() {
         return roles;
     }
