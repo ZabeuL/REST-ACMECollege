@@ -13,8 +13,8 @@ import static javax.security.enterprise.identitystore.CredentialValidationResult
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Typed;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.CallerOnlyCredential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
@@ -28,8 +28,10 @@ import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStore;
 
+import static javax.interceptor.Interceptor.Priority.APPLICATION;
+
 @ApplicationScoped
-@Typed(CustomIdentityStore.class)
+@Priority(APPLICATION + 500)
 public class CustomIdentityStore implements IdentityStore {
 
     @Inject

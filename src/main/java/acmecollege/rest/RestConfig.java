@@ -18,9 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.security.DeclareRoles;
+import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+@BasicAuthenticationMechanismDefinition(realmName = "acmecollege-realm")
 @ApplicationPath(APPLICATION_API_VERSION)
 //This used to be in web.xml
 @DeclareRoles({USER_ROLE, ADMIN_ROLE})
